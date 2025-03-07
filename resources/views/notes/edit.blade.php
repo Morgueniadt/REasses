@@ -18,9 +18,9 @@
 
                     {{-- Using the NoteForm component to update the note --}}
                     <x-note-form 
-                        :action="route('note.update', $note)"  <!-- Defines the route for form submission -->
-                        :method="'PUT'"  <!-- Specifies HTTP method as PUT for updating the existing note -->
-                        :note="$note"  <!-- Pass the note data to the form for editing -->
+                        :action="route('note.update', $note)"  
+                        :method="'PUT'"  
+                        :note="$note"  
                     />
                 </div>
             </div>

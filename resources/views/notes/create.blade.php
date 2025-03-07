@@ -29,8 +29,8 @@
 
                     {{-- Using the NoteForm component to create the note --}}
                     <x-note-form 
-                        :action="route('note.store')" <!-- Defines the route for form submission -->
-                        :method="'POST'" <!-- Specifies HTTP method as POST for creating a new note -->
+                        :action="route('note.store')" 
+                        :method="'POST'" 
                     />
                 </div>
             </div>
