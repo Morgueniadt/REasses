@@ -1,30 +1,27 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\NoteController;
+use Inertia\Inertia;
 
-// Route for the home page
 Route::get('/', function () {
-    return view('welcome');
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
 });
 
-// Route to display the list of notes (using NoteController's index method)
-Route::get('/notes', [NoteController::class, 'index'])->name('notes.index');
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-// Route for creating a new note (show the create form)
-Route::get('/notes/create', [NoteController::class, 'create'])->name('notes.create');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
-// Route to store the new note
-Route::post('/notes', [NoteController::class, 'store'])->name('notes.store');
-
-// Route for displaying a specific note (view page)
-Route::get('/notes/{note}', [NoteController::class, 'show'])->name('notes.show');
-
-// Route for editing a note (show edit form)
-Route::get('/notes/{note}/edit', [NoteController::class, 'edit'])->name('notes.edit');
-
-// Route to update a specific note
-Route::put('/notes/{note}', [NoteController::class, 'update'])->name('notes.update');
-
-// Route to delete a specific note
-Route::delete('/notes/{note}', [NoteController::class, 'destroy'])->name('notes.destroy');
+require __DIR__.'/auth.php';

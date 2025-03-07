@@ -39,16 +39,8 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
-<!-- Add a dropdown box to the registration form that allows users to choose user or admin --> <!-- not a secure way to create admin, but it's fine for this CA --> <div>
-text-gray-700">Role</label>
-<label for="role" class="block text-sm font-medium <select_id="role" name="role" class="mt-1 block w-full" required>
-<option value="user" selected>User</option> <option value="admin">Admin</option>
-</select>
-@error('role')
-<span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
-</div>
         <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
+            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
                 {{ __('Already registered?') }}
             </a>
 
