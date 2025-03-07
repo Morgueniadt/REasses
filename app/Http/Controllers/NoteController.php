@@ -11,10 +11,12 @@ class NoteController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        $notes = Note::all();  // Retrieve all notes
-        return view('notes.index', compact('notes'));  // Pass the notes data to the view
-    }
+{
+    // Paginate notes with 10 per page (adjust the number as needed)
+    $notes = Note::paginate(10);
+
+    return view('notes.index', compact('notes'));
+}
 
     /**
      * Show the form for creating a new resource.
