@@ -16,7 +16,7 @@
                         @else
                             @foreach ($notes as $note)
                                 <div class="border p-6 rounded-lg shadow-lg">
-                                    <a href="{{ route('notes.show', $note) }}">
+                                    <a href="{{ route('notes.show', $note->id) }}">
                                         <x-note-card 
                                             :title="$note->title" 
                                             :content="$note->content" 

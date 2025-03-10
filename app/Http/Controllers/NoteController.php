@@ -35,17 +35,24 @@ class NoteController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'nullable|string',
-            'file_url' => 'nullable|url',
+            'file_url' => 'nullable|file|mimes:pdf,jpeg,png,docx', // Add file validation if necessary
         ]);
-
+    
+        // Handle file upload
+        if ($request->hasFile('file_url')) {
+            $filePath = $request->file('file_url')->store('notes_files', 'public'); // Store in the 'notes_files' folder inside 'public'
+        } else {
+            $filePath = null; // No file uploaded
+        }
+    
         // Create the note and associate it with the authenticated user
         Note::create([
             'title' => $validated['title'],
             'content' => $validated['content'],
-            'file_url' => $validated['file_url'],
-            'user_id' => auth()->id(),  // Automatically associate with the authenticated user
+            'file_url' => $filePath, // Store the file path
+            'user_id' => auth()->id(), // Automatically associate with the authenticated user
         ]);
-
+    
         // Redirect to the notes index page with a success message
         return redirect()->route('notes.index')->with('success', 'Note created successfully.');
     }
