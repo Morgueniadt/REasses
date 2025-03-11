@@ -14,7 +14,7 @@ class NoteController extends Controller
     {
         // Paginate notes with 10 per page (you can change 10 to any other number as needed)
         $notes = Note::paginate(10);
-    
+        // dd($notes);
         // Return the view with paginated notes
         return view('notes.index', compact('notes'));
     }

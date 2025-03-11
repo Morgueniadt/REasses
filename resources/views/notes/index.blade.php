@@ -14,22 +14,23 @@
                         @if ($notes->isEmpty())
                             <p>No notes found.</p>
                         @else
+                        
                             @foreach ($notes as $note)
                                 <div class="border p-6 rounded-lg shadow-lg">
                                     <!-- Corrected link to pass the note's id -->
-                                    <a href="{{ route('note.show', $note) }}">
-                                        <x-note-card 
+                                    <a href="{{ route('note.show', $note->id) }}">
+                                        <x-note-card dd($notes)
                                             :title="$note->title" 
                                             :content="$note->content" 
                                             :created_at="$note->created_at->format('F j, Y, g:i a')" />
                                     </a>
 
                                     <div class="mt-4 flex space-x-2">
-                                        <a href="{{ route('note.edit', $note) }}" class="text-gray-600 bg-orange-300 hover:bg-orange-700 font-bold py-2 px-4 rounded">
+                                        <a href="{{ route('notes.edit', $note) }}" class="text-gray-600 bg-orange-300 hover:bg-orange-700 font-bold py-2 px-4 rounded">
                                             Edit
                                         </a>
 
-                                        <form action="{{ route('note.destroy', $note) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this note?');">
+                                        <form action="{{ route('notes.destroy', $note) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this note?');">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="bg-red-500 hover:bg-red-700 text-gray-100 font-bold py-2 px-4 rounded">
