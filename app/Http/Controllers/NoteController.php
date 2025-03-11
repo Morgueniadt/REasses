@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Note;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class NoteController extends Controller
 {
@@ -13,7 +14,7 @@ class NoteController extends Controller
     public function index()
 {
     // Paginate notes with 10 per page (adjust the number as needed)
-    $notes = Note::paginate(10);
+    $notes = Note::all( );
 
     return view('notes.index', compact('notes'));
 }
@@ -45,7 +46,7 @@ class NoteController extends Controller
             $filePath = null; // No file uploaded
         }
     
-        // Create the note and associate it with the authenticated user
+        // Create the notes and associate it with the authenticated user
         Note::create([
             'title' => $validated['title'],
             'content' => $validated['content'],
@@ -62,7 +63,7 @@ class NoteController extends Controller
      */
     public function show(Note $note)
     {
-        return view('notes.show', compact('note'));  // Return the view and pass the specific note
+        return view('notes.show', compact('note'));  // Return the view and pass the specific notes
     }
 
     /**
@@ -70,7 +71,7 @@ class NoteController extends Controller
      */
     public function edit(Note $note)
     {
-        return view('notes.edit', compact('note'));  // Return the edit view with the note data
+        return view('notes.edit', compact('notes'));  // Return the edit view with the notes data
     }
 
     /**
@@ -85,8 +86,8 @@ class NoteController extends Controller
             'file_url' => 'nullable|url',  // Optional file URL field
         ]);
 
-        // Update the note
-        $note->update([
+        // Update the notes
+       $note->update([
             'title' => $validated['title'],
             'content' => $validated['content'],
             'file_url' => $validated['file_url'],
@@ -101,8 +102,8 @@ class NoteController extends Controller
      */
     public function destroy(Note $note)
     {
-        // Delete the note
-        $note->delete();
+        // Delete the notes
+       $note->delete();
 
         // Redirect to the notes index page with a success message
         return redirect()->route('notes.index')->with('success', 'Note deleted successfully.');

@@ -5,17 +5,17 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('notes.index') }}">
+                    <a href="{{ route('note.index') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('notes.index')" :active="request()->routeIs('notes.index')">
+                    <x-nav-link :href="route('note.index')" :active="request()->routeIs('note.index')">
                         {{ __('View All Notes') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('notes.create')" :active="request()->routeIs('notes.create')">
+                    <x-nav-link :href="route('note.create')" :active="request()->routeIs('note.create')">
                         {{ __('Create New Note') }}
                     </x-nav-link>
                 </div>
@@ -23,7 +23,7 @@
 
             <!-- the create link only appears for admin users --> 
             @if(auth()->user()->role === 'admin')
-                <x-nav-link :href="route('notes.create')" :active="request()->routeIs('notes.create')"> {{ __('Create New Note') }}
+                <x-nav-link :href="route('note.create')" :active="request()->routeIs('note.create')"> {{ __('Create New Note') }}
                 </x-nav-link>
             @endif
 
@@ -43,7 +43,7 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('notes.index')">
+                        <x-dropdown-link :href="route('note.index')">
                             {{ __('Notes') }}
                         </x-dropdown-link>
 
@@ -74,10 +74,10 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('notes.index')" :active="request()->routeIs('notes.index')">
+            <x-responsive-nav-link :href="route('note.index')" :active="request()->routeIs('note.index')">
                 {{ __('View All Notes') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('notes.create')" :active="request()->routeIs('notes.create')">
+            <x-responsive-nav-link :href="route('note.create')" :active="request()->routeIs('note.create')">
                 {{ __('Create New Note') }}
             </x-responsive-nav-link>
         </div>
@@ -90,7 +90,7 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('notes.index')">
+                <x-responsive-nav-link :href="route('note.index')">
                     {{ __('Notes') }}
                 </x-responsive-nav-link>
 
