@@ -1,4 +1,4 @@
-@props(['title', 'content', 'file_url'])
+@props(['title', 'content', 'image'])
 
 <!-- Note Details Component -->
 <div class="border rounded-lg shadow-md p-6 bg-white hover:shadow-lg transition duration-300 max-w-xl mx-auto">
@@ -10,12 +10,12 @@
     <h3 class="text-gray-800 font-semibold mb-2" style="font-size: 1.5rem;">Content</h3> 
     <p class="text-gray-700 leading-relaxed mb-4">{{ $content }}</p> 
 
-    <!-- Optional File URL (if exists) -->
-    @isset($file_url)
-        <h3 class="text-gray-800 font-semibold mb-2" style="font-size: 1.5rem;">File URL</h3>
-        <p class="text-gray-700 leading-relaxed mb-4">
-            <a href="{{ $file_url }}" target="_blank" class="text-blue-600 hover:underline">View File</a>
-        </p>
+    <!-- Optional Image (if exists) -->
+    @isset($image)
+        <h3 class="text-gray-800 font-semibold mb-2" style="font-size: 1.5rem;">Image</h3>
+        <div class="mb-4">
+            <img src="{{ asset('storage/' . $image) }}" alt="Note Image" class="rounded-md max-w-full h-auto" />
+        </div>
     @endisset
 
 </div>

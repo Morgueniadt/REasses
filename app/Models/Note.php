@@ -12,7 +12,7 @@ class Note extends Model
     protected $fillable = [
         'title',              // The title of the note.
         'content',            // The content of the note.
-        'file_url',           // The URL or file path for any attached files to the note.
+        'image',           // The URL or file path for any attached files to the note.
         'user_id',            // The ID of the user who created the note.
         'subject_id',         // The ID of the subject to which the note belongs.
         'created_at',         // Timestamp of when the note was created (automatically handled by Eloquent).
@@ -24,18 +24,4 @@ class Note extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function subject()
-    {
-        return $this->belongsTo(Subject::class, 'subject_id');
-    }
-
-    public function tags()
-    {
-        return $this->belongsToMany(Tag::class, 'note_tag', 'note_id', 'tag_id');
-    }
-
-    public function ratings()
-    {
-        return $this->hasMany(Rating::class, 'note_id');
-    }
 }

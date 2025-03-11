@@ -36,25 +36,25 @@
         @enderror
     </div>
 
-    <!-- File URL Field (optional) -->
+    <!-- Image Upload Field -->
     <div class="mb-4">
-        <label for="file_url" class="block text-sm font-medium text-gray-700">File URL</label>
+        <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
         <input
-            type="text"
-            name="file_url"
-            id="file_url"
-            value="{{ old('file_url', $note->file_url ?? '') }}"
+            type="file"
+            name="image"
+            id="image"
+            accept="image/*"
             class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
         />
-        @error('file_url')
+        @error('image')
             <p class="text-sm text-red-600">{{ $message }}</p>
         @enderror
     </div>
 
-    <!-- Display Current File URL if Editing -->
-    @isset($note->file_url)
+    <!-- Display Current Image if Editing -->
+    @isset($note->image)
         <div class="mb-4">
-            <a href="{{ $note->file_url }}" target="_blank" class="text-blue-600 underline">View File</a>
+            <img src="{{ asset('storage/' . $note->image) }}" alt="Current Image" class="w-full h-auto rounded-lg">
         </div>
     @endisset
 
