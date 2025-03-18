@@ -20,13 +20,6 @@ class NoteSeeder extends Seeder
             'subject_id' => 1,  // You should replace with an actual subject ID from your subjects table.
         ]);
 
-        Note::create([
-            'title' => 'Note 2',
-            'content' => 'This is the content of note 2.',
-            'file_url' => 'http://example.com/note2.pdf',
-            'user_id' => 1,
-            'subject_id' => 1,
-        ]);
 
         // Add more notes as needed
     }
