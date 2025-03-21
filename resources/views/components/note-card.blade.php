@@ -1,6 +1,6 @@
 @props(['title', 'content', 'image'])
 
-<div class="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300">
+<div class="p-6 bg-white rounded-lg  transition duration-300">
     <!-- Note Title inside a bold heading -->
     <h4 class="font-bold text-xl mb-2">{{ $title }}</h4>
 
