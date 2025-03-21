@@ -12,9 +12,13 @@ class NoteController extends Controller
      */
     public function index()
     {
-        $notes = Note::all();  // Retrieve all notes
-        return view('notes.index', compact('notes'));  // Pass the notes data to the view
+        // Paginate notes with 10 per page (you can change 10 to any other number as needed)
+        $notes = Note::paginate(10);
+        // dd($notes);
+        // Return the view with paginated notes
+        return view('notes.index', compact('notes'));
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -29,31 +33,40 @@ class NoteController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate the input
+        // Validate the input, including image validation
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'nullable|string',
-            'file_url' => 'nullable|url',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validating image
         ]);
-
-        // Create the note and associate it with the authenticated user
+        
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            // Store the image in the 'notes_images' folder inside the 'public' disk
+            $imagePath = $request->file('image')->store('notes_images', 'public');
+        } else {
+            $imagePath = null; // If no image is uploaded
+        }
+        
+        // Create the note with the image
         Note::create([
             'title' => $validated['title'],
             'content' => $validated['content'],
-            'file_url' => $validated['file_url'],
-            'user_id' => auth()->id(),  // Automatically associate with the authenticated user
+            'image' => $imagePath, // Save the image path
+            'user_id' => auth()->id(), // Associate with authenticated user
         ]);
-
-        // Redirect to the notes index page with a success message
-        return redirect()->route('notes.index')->with('success', 'Note created successfully.');
+    
+        return redirect()->route('note.index')->with('success', 'Note created successfully.');
     }
+    
+    
 
     /**
      * Display the specified resource.
      */
     public function show(Note $note)
     {
-        return view('notes.show', compact('note'));  // Return the view and pass the specific note
+        return view('notes.show', compact('note'));  // Return the view and pass the specific notes
     }
 
     /**
@@ -61,7 +74,7 @@ class NoteController extends Controller
      */
     public function edit(Note $note)
     {
-        return view('notes.edit', compact('note'));  // Return the edit view with the note data
+        return view('notes.edit', compact('notes'));  // Return the edit view with the notes data
     }
 
     /**
@@ -73,27 +86,38 @@ class NoteController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'nullable|string',
-            'file_url' => 'nullable|url',  // Optional file URL field
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validating image
         ]);
-
+    
+        // Handle image upload if a new image is provided
+        if ($request->hasFile('image')) {
+            // Delete the old image if it exists
+            if ($note->image) {
+                Storage::delete('public/' . $note->image);
+            }
+    
+            // Store the new image
+            $imagePath = $request->file('image')->store('notes_images', 'public');
+            $note->image = $imagePath; // Update image field
+        }
+    
         // Update the note
         $note->update([
             'title' => $validated['title'],
             'content' => $validated['content'],
-            'file_url' => $validated['file_url'],
         ]);
-
-        // Redirect to the notes index page with a success message
+    
         return redirect()->route('notes.index')->with('success', 'Note updated successfully.');
     }
+    
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Note $note)
     {
-        // Delete the note
-        $note->delete();
+        // Delete the notes
+       $note->delete();
 
         // Redirect to the notes index page with a success message
         return redirect()->route('notes.index')->with('success', 'Note deleted successfully.');

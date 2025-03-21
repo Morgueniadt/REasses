@@ -1,8 +1,4 @@
-@props([
-    'title', 
-    'content', 
-    'file_url'
-])
+@props(['title', 'content', 'image'])
 
 <div class="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300">
     <!-- Note Title inside a bold heading -->
@@ -11,10 +7,10 @@
     <!-- Display note content with some padding and text styling -->
     <p class="text-gray-600 text-sm mb-4">{{ $content }}</p>
 
-    <!-- Optional: Display file link if a file is associated with the note -->
-    @isset($file_url)
-        <p class="text-gray-800 text-sm mt-2">
-            <a href="{{ $file_url }}" target="_blank" class="text-blue-600 hover:underline">View Attached File</a>
-        </p>
+    <!-- Optional: Display image if it exists -->
+    @isset($image)
+        <div class="mt-4">
+            <img src="{{ asset('storage/' . $image) }}" alt="Note Image" class="w-full h-auto rounded-lg">
+        </div>
     @endisset
 </div>

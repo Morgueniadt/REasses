@@ -20,7 +20,7 @@
                     <x-note-form 
                         :action="route('note.update', $note)"  
                         :method="'PUT'"  
-                        :note="$note"  
+                        :note="$note" 
                     />
                 </div>
             </div>
