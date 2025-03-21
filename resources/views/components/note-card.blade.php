@@ -5,7 +5,6 @@
     <h4 class="font-bold text-xl mb-2">{{ $title }}</h4>
 
     <!-- Display note content with some padding and text styling -->
-    <p class="text-gray-600 text-sm mb-4">{{ $content }}</p>
 
     <!-- Optional: Display image if it exists -->
     @isset($image)

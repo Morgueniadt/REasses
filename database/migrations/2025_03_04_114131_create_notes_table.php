@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('notes', function (Blueprint $table) {
-            $table->id('Note_id');  // Auto-incrementing primary key for the note.
+            $table->id('id');  // Auto-incrementing primary key for the note.
             $table->string('title');  // The title of the note.
             $table->text('content')->nullable();  // The content of the note.
             $table->string('image')->nullable();  // Optional field for the file URL.
