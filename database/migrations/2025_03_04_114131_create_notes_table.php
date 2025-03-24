@@ -29,3 +29,10 @@ return new class extends Migration
         Schema::dropIfExists('notes');
     }
 };
+// php artisan make:migration create_subjects_table
+// php artisan make:migration create_tags_table
+// php artisan make:migration create_note_tag_table
+// php artisan make:model Subject
+// php artisan make:model Tag
+// php artisan make:seeder SubjectSeeder
+// php artisan make:controller TagController
