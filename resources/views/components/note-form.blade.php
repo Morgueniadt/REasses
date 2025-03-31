@@ -1,4 +1,4 @@
-@props(['action', 'method', 'note'])
+@props(['action', 'method', 'note', 'tags', 'subjects'])
 
 <form action="{{ $action }}" method="POST" enctype="multipart/form-data">
     @csrf
@@ -32,6 +32,46 @@
             class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
         >{{ old('content', $note->content ?? '') }}</textarea>
         @error('content')
+            <p class="text-sm text-red-600">{{ $message }}</p>
+        @enderror
+    </div>
+
+    <!-- Subject Selection -->
+    <div class="mb-4">
+        <label for="subject_id" class="block text-sm font-medium text-gray-700">Subject</label>
+        <select
+            name="subject_id"
+            id="subject_id"
+            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+        >
+            <option value="">Select a Subject</option>
+            @foreach($subjects as $subject)
+                <option value="{{ $subject->id }}" {{ old('subject_id', $note->subject_id ?? '') == $subject->id ? 'selected' : '' }}>
+                    {{ $subject->name }}
+                </option>
+            @endforeach
+        </select>
+        @error('subject_id')
+            <p class="text-sm text-red-600">{{ $message }}</p>
+        @enderror
+    </div>
+
+    <!-- Tags Selection -->
+    <div class="mb-4">
+        <label for="tags" class="block text-sm font-medium text-gray-700">Tags</label>
+        <select
+            name="tags[]"
+            id="tags"
+            multiple
+            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+        >
+            @foreach($tags as $tag)
+                <option value="{{ $tag->id }}" {{ in_array($tag->id, old('tags', $note->tags->pluck('id')->toArray() ?? [])) ? 'selected' : '' }}>
+                    {{ $tag->name }}
+                </option>
+            @endforeach
+        </select>
+        @error('tags')
             <p class="text-sm text-red-600">{{ $message }}</p>
         @enderror
     </div>

@@ -28,39 +28,40 @@ class NoteController extends Controller
     }
 
     public function store(Request $request)
-    {
-        // Validate input, including tags and subject
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'tags' => 'nullable|array',
-            'tags.*' => 'exists:tags,id', // Validate each tag ID
-            'subject_id' => 'nullable|exists:subjects,id', // Validate subject ID
-        ]);
+{
+    // Validate the request. Tags are now optional.
+    $validated = $request->validate([
+        'title' => 'required|string|max:255',
+        'content' => 'nullable|string',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'tags' => 'nullable|array', // Tags are now optional
+        'tags.*' => 'exists:tags,id', // Validate each tag ID, if provided
+        'subject_id' => 'nullable|exists:subjects,id', // Validate subject ID if provided
+    ]);
 
-        // Handle image upload
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('notes_images', 'public');
-        }
-
-        // Create the note
-        $note = Note::create([
-            'title' => $validated['title'],
-            'content' => $validated['content'],
-            'image' => $imagePath,
-            'user_id' => auth()->id(),
-            'subject_id' => $validated['subject_id'], // Assign subject
-        ]);
-
-        // Attach tags if provided
-        if ($request->has('tags')) {
-            $note->tags()->attach($validated['tags']);
-        }
-
-        return redirect()->route('notes.index')->with('success', 'Note created successfully.');
+    // Handle image upload
+    $imagePath = null;
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('notes_images', 'public');
     }
+
+    // Create the note
+    $note = Note::create([
+        'title' => $validated['title'],
+        'content' => $validated['content'],
+        'image' => $imagePath,
+        'user_id' => auth()->id(),
+        'subject_id' => $validated['subject_id'], // Assign subject if provided
+    ]);
+
+    // Attach tags if provided (only if tags exist)
+    if (isset($validated['tags']) && count($validated['tags']) > 0) {
+        $note->tags()->attach($validated['tags']);
+    }
+
+    return redirect()->route('notes.index')->with('success', 'Note created successfully.');
+}
+
 
     public function edit(Note $note)
     {
@@ -71,40 +72,41 @@ class NoteController extends Controller
     }
 
     public function update(Request $request, Note $note)
-    {
-        // Validate input, including tags and subject
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'tags' => 'nullable|array',
-            'tags.*' => 'exists:tags,id', // Validate each tag ID
-            'subject_id' => 'nullable|exists:subjects,id', // Validate subject ID
-        ]);
+{
+    // Validate the request. Tags are now optional.
+    $validated = $request->validate([
+        'title' => 'required|string|max:255',
+        'content' => 'nullable|string',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'tags' => 'nullable|array', // Tags are now optional
+        'tags.*' => 'exists:tags,id', // Validate each tag ID, if provided
+        'subject_id' => 'nullable|exists:subjects,id', // Validate subject ID if provided
+    ]);
 
-        // Handle image upload
-        if ($request->hasFile('image')) {
-            if ($note->image) {
-                Storage::delete('public/' . $note->image); // Delete old image
-            }
-            $imagePath = $request->file('image')->store('notes_images', 'public');
-            $note->image = $imagePath; // Update image
+    // Handle image upload
+    if ($request->hasFile('image')) {
+        if ($note->image) {
+            Storage::delete('public/' . $note->image); // Delete old image
         }
-
-        // Update the note
-        $note->update([
-            'title' => $validated['title'],
-            'content' => $validated['content'],
-            'subject_id' => $validated['subject_id'], // Update subject
-        ]);
-
-        // Sync tags (attach and detach as necessary)
-        if ($request->has('tags')) {
-            $note->tags()->sync($validated['tags']);
-        }
-
-        return redirect()->route('notes.index')->with('success', 'Note updated successfully.');
+        $imagePath = $request->file('image')->store('notes_images', 'public');
+        $note->image = $imagePath; // Update image
     }
+
+    // Update the note
+    $note->update([
+        'title' => $validated['title'],
+        'content' => $validated['content'],
+        'subject_id' => $validated['subject_id'], // Update subject if provided
+    ]);
+
+    // Sync tags (attach and detach as necessary)
+    if (isset($validated['tags']) && count($validated['tags']) > 0) {
+        $note->tags()->sync($validated['tags']);
+    }
+
+    return redirect()->route('notes.index')->with('success', 'Note updated successfully.');
+}
+
 
     public function destroy(Note $note)
     {

@@ -1,40 +1,39 @@
-<!-- resources/views/notes/create.blade.php -->
+<x-app-layout>
+    <!-- Setting up the header for the page -->
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Create New Note') }} <!-- Display header text -->
+        </h2>
+    </x-slot>
 
-<form action="{{ route('notes.store') }}" method="POST" enctype="multipart/form-data">
-    @csrf
+    <!-- Main content section with padding for vertical spacing -->
+    <div class="py-12">
+        <!-- Container to center the form with specific max width and padding -->
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <!-- White background container with rounded corners and shadow for the form -->
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <!-- Form content area with padding and text color styling -->
+                <div class="p-6 text-gray-900">
+                    <h3 class="font-semibold text-lg mb-4">Add a New Note:</h3> <!-- Section title -->
 
-    <!-- Title -->
-    <label for="title">Title</label>
-    <input type="text" name="title" id="title" value="{{ old('title') }}" required>
+                    {{-- Display validation errors --}}
+                    @if ($errors->any())
+                        <div class="mb-4 text-red-600">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
-    <!-- Content -->
-    <label for="content">Content</label>
-    <textarea name="content" id="content">{{ old('content') }}</textarea>
-
-    <!-- Subject Selection -->
-    <label for="subject_id">Subject</label>
-    <select name="subject_id" id="subject_id">
-        <option value="">Select a Subject</option>
-        @foreach($subjects as $subject)
-            <option value="{{ $subject->id }}" {{ old('subject_id') == $subject->id ? 'selected' : '' }}>
-                {{ $subject->name }}
-            </option>
-        @endforeach
-    </select>
-
-    <!-- Tags Selection -->
-    <label for="tags">Tags</label>
-    <select name="tags[]" id="tags" multiple>
-        @foreach($tags as $tag)
-            <option value="{{ $tag->id }}" {{ in_array($tag->id, old('tags', [])) ? 'selected' : '' }}>
-                {{ $tag->name }}
-            </option>
-        @endforeach
-    </select>
-
-    <!-- Image -->
-    <label for="image">Image</label>
-    <input type="file" name="image" id="image">
-
-    <button type="submit">Create Note</button>
-</form>
+                    {{-- Using the NoteForm component to create the note --}}
+                    <x-note-form 
+                        :action="route('note.store')" 
+                        :method="'POST'" 
+                    />
+                </div>
+            </div>
+        </div>
+    </div>
+</x-app-layout>
