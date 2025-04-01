@@ -18,9 +18,14 @@
                     <x-nav-link :href="route('note.create')" :active="request()->routeIs('note.create')" class="text-white hover:text-gray-300">
                         {{ __('Create New Note') }}
                     </x-nav-link>
+                    
+                        <x-nav-link :href="route('note.userNotes')" :active="request()->routeIs('note.userNotes')" class="text-white hover:text-gray-300">
+                        {{ __('My Notes') }}
+                        </x-nav-link>
+                   
                 </div>
             </div>
-
+            
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">

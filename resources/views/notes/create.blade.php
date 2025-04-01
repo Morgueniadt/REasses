@@ -14,7 +14,7 @@
             <div class="bg-black dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg"
 >
                 <!-- Form content area with padding and text color styling -->
-                <div class="p-6 text-gray-900">
+                <div class="p-6 text-white-900">
                     <h3 class="font-semibold text-lg mb-4">Add a New Note:</h3> <!-- Section title -->
 
                     {{-- Display validation errors --}}

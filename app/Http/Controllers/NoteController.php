@@ -103,20 +103,25 @@ class NoteController extends Controller
         // Return the view with the note details
         return view('notes.show', compact('note'));
     }
-
-    public function destroy(Note $note)
+    public function userNotes()
     {
-        // Delete the image if exists
-        if ($note->image) {
-            Storage::delete('public/' . $note->image);
-        }
-
-        // Detach subjects
-        $note->subjects()->detach();
-
-        // Delete the note
-        $note->delete();
-
-        return redirect()->route('note.index')->with('success', 'Note deleted successfully.');
+        $notes = auth()->user()->notes()->latest()->paginate(10); // ✅ Get only the logged-in user's notes
+        return view('notes.index', compact('notes'));
     }
+    public function destroy(Note $note)
+{
+    if ($note->user_id !== auth()->id()) {
+        return redirect()->route('note.index')->with('error', 'Unauthorized action.');
+    }
+
+    if ($note->image) {
+        Storage::delete('public/' . $note->image);
+    }
+
+    $note->subjects()->detach();
+    $note->delete();
+
+    return redirect()->route('note.index')->with('success', 'Note deleted successfully.');
+}
+
 }
