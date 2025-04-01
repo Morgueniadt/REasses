@@ -31,6 +31,7 @@
                     <x-note-form 
                         :action="route('note.store')" 
                         :method="'POST'" 
+                        :subjects="$subjects" 
                     />
                 </div>
             </div>

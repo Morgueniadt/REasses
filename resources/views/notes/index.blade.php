@@ -22,24 +22,27 @@
                                             :created_at="$note->created_at->format('F j, Y, g:i a')" />
                                     </a>
 
-                                    <div class="mt-4 flex space-x-2">
-                                        <!-- Edit Button -->
-                                        <a href="{{ route('note.edit', $note->id) }}" 
-                                           class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                                            Edit
-                                        </a>
+                                    <!-- Only show Edit and Delete buttons if the user is the note owner -->
+                                    @if ($note->user_id === auth()->id())
+                                        <div class="mt-4 flex space-x-2">
+                                            <!-- Edit Button -->
+                                            <a href="{{ route('note.edit', $note->id) }}" 
+                                               class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                                                Edit
+                                            </a>
 
-                                        <!-- Delete Button -->
-                                        <form action="{{ route('note.destroy', $note->id) }}" method="POST" 
-                                              onsubmit="return confirm('Are you sure you want to delete this note?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" 
-                                                    class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
-                                                Delete
-                                            </button>
-                                        </form>
-                                    </div>
+                                            <!-- Delete Button -->
+                                            <form action="{{ route('note.destroy', $note->id) }}" method="POST" 
+                                                  onsubmit="return confirm('Are you sure you want to delete this note?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" 
+                                                        class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                    @endif
                                 </div>
                             @endforeach
                         @endif

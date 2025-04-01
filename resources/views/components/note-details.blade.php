@@ -1,4 +1,4 @@
-@props(['title', 'content', 'image', 'tags', 'subject'])
+@props(['title', 'content', 'image', 'subject'])
 
 <!-- Note Details Component -->
 <div class="border rounded-lg shadow-md p-6 bg-white hover:shadow-lg transition duration-300 max-w-xl mx-auto">
@@ -15,16 +15,6 @@
         <h3 class="text-gray-800 font-semibold mb-2" style="font-size: 1.5rem;">Subject</h3>
         <p class="text-gray-700 mb-4">{{ $subject->name }}</p>  <!-- Display the subject name -->
     @endisset
-
-    <!-- Tags -->
-    @if($tags->isNotEmpty())
-        <h3 class="text-gray-800 font-semibold mb-2" style="font-size: 1.5rem;">Tags</h3>
-        <div class="mb-4">
-            @foreach($tags as $tag)
-                <span class="inline-block bg-blue-100 text-blue-700 text-sm font-semibold px-3 py-1 rounded-full mr-2 mb-2">{{ $tag->name }}</span>
-            @endforeach
-        </div>
-    @endif
 
     <!-- Optional Image (if exists) -->
     @isset($image)

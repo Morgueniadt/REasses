@@ -17,12 +17,15 @@ Route::get('/dashboard', function () {
 // Note Routes (CRUD operations for notes)
 Route::prefix('notes')->name('note.')->group(function () {
     Route::get('/', [NoteController::class, 'index'])->name('index');  // List all notes
-    Route::get('/create', [NoteController::class, 'create'])->name('create');  // Create new note form
+    Route::get('/create', [NoteController::class, 'create'])->name('create');  // Form for creating new note
     Route::post('/', [NoteController::class, 'store'])->name('store');  // Store a new note
     Route::get('/{note}/show', [NoteController::class, 'show'])->name('show');  // Show a specific note
     Route::get('/{note}/edit', [NoteController::class, 'edit'])->name('edit');  // Edit note form
     Route::put('/{note}', [NoteController::class, 'update'])->name('update');  // Update specific note
     Route::delete('/{note}', [NoteController::class, 'destroy'])->name('destroy');  // Delete a note
+    // User Notes Route (shows the notes created by the logged-in user)
+Route::get('/user/notes', [NoteController::class, 'userNotes'])->name('user.notes');
+
 });
 
 // Authentication Routes (this will load the authentication routes like login, register, etc.)

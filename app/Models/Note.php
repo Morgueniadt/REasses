@@ -1,40 +1,41 @@
 <?php
 
+// Note.php
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory; // Importing the HasFactory trait to enable factory functionality.
-use Illuminate\Database\Eloquent\Model; // Importing the base Model class for Eloquent ORM functionality.
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Note extends Model
 {
     use HasFactory;
 
-    // Define which attributes are mass assignable.
     protected $fillable = [
-        'title',      // The title of the note.
-        'content',    // The content of the note.
-        'image',      // The URL or file path for any attached files to the note.
-        'user_id',    // The ID of the user who created the note.
-        'subject_id', // The ID of the subject to which the note belongs.
-        'created_at', // Timestamp of when the note was created (automatically handled by Eloquent).
-        'updated_at', // Timestamp of when the note was last updated (automatically handled by Eloquent).
+        'title',
+        'content',
+        'image',
+        'subject_id',
+        'user_id',
+        'created_at',
+        'updated_at',
     ];
 
-    // Relationship with the User model (each note belongs to a user).
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // Relationship with the Tag model (many-to-many relationship).
-    public function tags()
-    {
-        return $this->belongsToMany(Tag::class);
-    }
 
-    // Relationship with the Subject model (each note belongs to a subject).
-    public function subject()
+    // Change the subject relationship to many-to-many
+    public function subjects()
     {
-        return $this->belongsTo(Subject::class);
+        return $this->belongsToMany(Subject::class);
     }
+    // In User.php (Model)
+public function notes()
+{
+    return $this->hasMany(Note::class);
+}
+
 }

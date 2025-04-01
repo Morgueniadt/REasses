@@ -1,4 +1,4 @@
-@props(['action', 'method', 'note', 'tags', 'subjects'])
+@props(['action', 'method', 'note',  'subjects'])
 
 <form action="{{ $action }}" method="POST" enctype="multipart/form-data">
     @csrf
@@ -56,25 +56,7 @@
         @enderror
     </div>
 
-    <!-- Tags Selection -->
-    <div class="mb-4">
-        <label for="tags" class="block text-sm font-medium text-gray-700">Tags</label>
-        <select
-            name="tags[]"
-            id="tags"
-            multiple
-            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-        >
-            @foreach($tags as $tag)
-                <option value="{{ $tag->id }}" {{ in_array($tag->id, old('tags', $note->tags->pluck('id')->toArray() ?? [])) ? 'selected' : '' }}>
-                    {{ $tag->name }}
-                </option>
-            @endforeach
-        </select>
-        @error('tags')
-            <p class="text-sm text-red-600">{{ $message }}</p>
-        @enderror
-    </div>
+
 
     <!-- Image Upload Field -->
     <div class="mb-4">
@@ -102,6 +84,8 @@
     <div class="mt-6">
         <x-primary-button>
             {{ isset($note) ? 'Update Note' : 'Add Note' }}
+            
         </x-primary-button>
+   
     </div>
 </form>
