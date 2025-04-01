@@ -1,8 +1,9 @@
 <?php
 
+namespace Database\Seeders; 
+use Illuminate\Database\Seeder;
 use App\Models\Note;
 use App\Models\Subject;
-use Illuminate\Database\Seeder;
 
 class NoteSubjectSeeder extends Seeder
 {
@@ -13,16 +14,15 @@ class NoteSubjectSeeder extends Seeder
      */
     public function run()
     {
-        // Retrieve all notes and subjects
-        $notes = Note::all();
         $subjects = Subject::all();
-
-        // Loop through all notes and attach random subjects
-        foreach ($notes as $note) {
-            // Attach random subjects to each note
-            $note->subjects()->attach(
-                $subjects->random(rand(1, 3))->pluck('id')->toArray() // Randomly attach 1 to 3 subjects
-            );
+    
+        foreach (Note::all() as $note) {
+            // Assign a random subject_id to each note
+            $note->update([
+                'subject_id' => $subjects->random()->id,
+            ]);
         }
     }
+    
 }
+

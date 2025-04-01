@@ -1,26 +1,26 @@
 @props(['title', 'content', 'image', 'subject'])
 
 <!-- Note Details Component -->
-<div class="border rounded-lg shadow-md p-6 bg-white hover:shadow-lg transition duration-300 max-w-xl mx-auto">
+<div class="border border-blue-600 rounded-lg shadow-md p-6 bg-black text-gray-300 hover:shadow-lg transition duration-300 max-w-xl mx-auto">
 
     <!-- Note Title -->
-    <h1 class="font-bold text-gray-800 mb-2" style="font-size: 2.5rem;">{{ $title }}</h1> 
+    <h1 class="font-bold text-blue-400 mb-2 text-3xl">{{ $title }}</h1>
 
     <!-- Note Content -->
-    <h3 class="text-gray-800 font-semibold mb-2" style="font-size: 1.5rem;">Content</h3> 
-    <p class="text-gray-700 leading-relaxed mb-4">{{ $content }}</p> 
+    <h3 class="text-blue-300 font-semibold mb-2 text-xl">Content</h3>
+    <p class="leading-relaxed mb-4">{{ $content }}</p>
 
     <!-- Subject -->
     @isset($subject)
-        <h3 class="text-gray-800 font-semibold mb-2" style="font-size: 1.5rem;">Subject</h3>
-        <p class="text-gray-700 mb-4">{{ $subject->name }}</p>  <!-- Display the subject name -->
+        <h3 class="text-blue-300 font-semibold mb-2 text-xl">Subject</h3>
+        <p class="mb-4">{{ $subject->name }}</p>
     @endisset
 
-    <!-- Optional Image (if exists) -->
+    <!-- Optional Image -->
     @isset($image)
-        <h3 class="text-gray-800 font-semibold mb-2" style="font-size: 1.5rem;">Image</h3>
+        <h3 class="text-blue-300 font-semibold mb-2 text-xl">Image</h3>
         <div class="mb-4">
-            <img src="{{ asset('storage/' . $image) }}" alt="Note Image" class="rounded-md max-w-full h-auto" />
+            <img src="{{ asset('storage/' . $image) }}" alt="Note Image" class="rounded-md max-w-full h-auto border border-blue-500" />
         </div>
     @endisset
 

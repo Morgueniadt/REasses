@@ -93,7 +93,7 @@ class NoteController extends Controller
             $note->subjects()->sync($validated['subjects']);
         }
 
-        return redirect()->route('notes.index')->with('success', 'Note updated successfully.');
+        return redirect()->route('note.index')->with('success', 'Note updated successfully.');
     }
     public function show($id)
     {
@@ -117,6 +117,6 @@ class NoteController extends Controller
         // Delete the note
         $note->delete();
 
-        return redirect()->route('notes.index')->with('success', 'Note deleted successfully.');
+        return redirect()->route('note.index')->with('success', 'Note deleted successfully.');
     }
 }
