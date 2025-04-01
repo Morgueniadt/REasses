@@ -23,8 +23,8 @@ Route::prefix('notes')->name('note.')->group(function () {
     Route::get('/{note}/edit', [NoteController::class, 'edit'])->name('edit');  // Edit note form
     Route::put('/{note}', [NoteController::class, 'update'])->name('update');  // Update specific note
     Route::delete('/{note}', [NoteController::class, 'destroy'])->name('destroy');  // Delete a note
-    // User Notes Route (shows the notes created by the logged-in user)
-Route::get('/user/notes', [NoteController::class, 'userNotes'])->name('user.notes');
+
+
 
 });
 

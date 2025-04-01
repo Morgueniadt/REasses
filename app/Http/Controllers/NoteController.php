@@ -103,14 +103,6 @@ class NoteController extends Controller
         // Return the view with the note details
         return view('notes.show', compact('note'));
     }
-    // In NoteController.php
-public function userNotes()
-{
-    // Fetch notes for the logged-in user
-    $notes = Auth::user()->notes;  // Assuming the user has a 'notes' relationship set up in the User model
-
-    return view('notes.index', compact('notes'));  // Pass the notes to the view
-}
 
     public function destroy(Note $note)
     {

@@ -28,7 +28,7 @@ class Note extends Model
 
 
     // Change the subject relationship to many-to-many
-    public function subjects()
+    public function subject()
     {
         return $this->belongsToMany(Subject::class);
     }
