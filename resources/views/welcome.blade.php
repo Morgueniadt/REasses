@@ -1,8 +1,8 @@
 <x-guest-layout>
     <div class="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
         <div class="max-w-md w-full bg-black dark:bg-gray-800 p-8 shadow-lg rounded-lg">
-            <h2 class="text-center text-2xl font-bold text-gray-900 dark:text-white">Welcome to ReAsses</h2>
-            <p class="text-center text-gray-600 dark:text-gray-300 mb-6">Sign in to continue</p>
+            <h2 class="text-center text-2xl font-bold text-white">Welcome to ReAsses</h2>
+            <p class="text-center text-white mb-6">Sign in to continue</p>
 
             <!-- Display Error Message -->
             @if(session('error'))
@@ -17,7 +17,7 @@
 
                 <!-- Email -->
                 <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+                    <label for="email" class="block text-sm font-medium text-white">Email</label>
                     <input type="email" id="email" name="email" required
                         class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300 dark:bg-gray-700 dark:text-white dark:border-gray-600">
                     @error('email')
@@ -27,7 +27,7 @@
 
                 <!-- Password -->
                 <div class="mt-4">
-                    <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+                    <label for="password" class="block text-sm font-medium text-white">Password</label>
                     <input type="password" id="password" name="password" required
                         class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300 dark:bg-gray-700 dark:text-white dark:border-gray-600">
                     @error('password')
@@ -39,7 +39,7 @@
                 <div class="flex items-center justify-between mt-4">
                     <label class="flex items-center">
                         <input type="checkbox" name="remember" class="h-4 w-4 text-blue-600">
-                        <span class="ml-2 text-sm text-gray-600 dark:text-gray-300">Remember me</span>
+                        <span class="ml-2 text-sm text-white">Remember me</span>
                     </label>
                     <a href="{{ route('password.request') }}" class="text-sm text-blue-500 hover:underline dark:text-blue-400">
                         Forgot password?
@@ -56,7 +56,7 @@
             </form>
 
             <!-- Register Link -->
-            <p class="mt-6 text-center text-sm text-gray-600 dark:text-gray-300">
+            <p class="mt-6 text-center text-sm text-white">
                 Don't have an account? 
                 <a href="{{ route('register') }}" class="text-blue-500 hover:underline dark:text-blue-400">Register</a>
             </p>

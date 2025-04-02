@@ -15,16 +15,25 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
-            <div>
-                <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-                </a>
+
+        <!-- Full screen background and layout -->
+        <div class="flex flex-col items-center justify-center min-h-screen bg-blue-900 dark:bg-gray-900">
+
+            <!-- Sign-in Box Container -->
+            <div class="w-full sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-3xl mt-6 px-6 py-4 bg-black dark:bg-gray-800 shadow-lg overflow-hidden rounded-lg">
+
+                <!-- Slot Content for Sign-In Form -->
+                {{ $slot }}
+                
             </div>
 
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-black dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
-                {{ $slot }}
+            <!-- Additional Useful Content (Optional) -->
+            <div class="mt-8 text-center text-white dark:text-gray-300">
+                <p>Welcome to ReAsses, your personal learning platform!</p>
+                <p class="text-sm">Sign in to access your notes and assignments.</p>
             </div>
+            
         </div>
+
     </body>
 </html>
