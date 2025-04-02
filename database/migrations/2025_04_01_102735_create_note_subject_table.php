@@ -8,10 +8,11 @@ class CreateNoteSubjectTable extends Migration
 {
     public function up()
     {
+        // Ensure that the tables are created in the correct order
         Schema::create('note_subject', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('note_id')->constrained('notes')->onDelete('cascade');
-            $table->foreignId('subject_id')->constrained('subjects')->onDelete('cascade');
+            $table->foreignId('note_id')->constrained()->onDelete('cascade'); // automatically references notes(id)
+            $table->foreignId('subject_id')->constrained()->onDelete('cascade'); // automatically references subjects(id)
             $table->timestamps();
 
             // Optional: Add a unique constraint to ensure a note can only have a subject once
