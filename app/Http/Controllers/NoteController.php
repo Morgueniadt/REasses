@@ -11,20 +11,18 @@ class NoteController extends Controller
 {
     public function index()
     {
-        // Paginate notes with the related subjects (no tags anymore)
-        $notes = Note::with('subjects')->paginate(10);  // Removed 'tags'
+        // Paginate notes with the related subjects
+        $notes = Note::with('subjects')->paginate(10);
 
         return view('notes.index', compact('notes'));
     }
 
     public function create()
-{
-    $subjects = Subject::all();
-    $note = null;  // New note, no existing note data
-    return view('notes.create', compact('subjects', 'note'));
-}
-
-
+    {
+        $subjects = Subject::all();
+        $note = null;  // New note, no existing note data
+        return view('notes.create', compact('subjects', 'note'));
+    }
 
     public function store(Request $request)
     {
@@ -32,7 +30,7 @@ class NoteController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'subjects' => 'nullable|array', 
+            'subjects' => 'nullable|array',
             'subjects.*' => 'exists:subjects,id', // Validate each subject ID
         ]);
 
@@ -48,7 +46,7 @@ class NoteController extends Controller
             'user_id' => auth()->id(),
         ]);
 
-        // Attach subjects if provided (no tags anymore)
+        // Attach subjects if provided
         if (isset($validated['subjects']) && count($validated['subjects']) > 0) {
             $note->subjects()->attach($validated['subjects']);
         }
@@ -57,12 +55,10 @@ class NoteController extends Controller
     }
 
     public function edit(Note $note)
-{
-    $subjects = Subject::all();
-    return view('notes.edit', compact('subjects', 'note'));
-}
-    
-
+    {
+        $subjects = Subject::all();
+        return view('notes.edit', compact('subjects', 'note'));
+    }
 
     public function update(Request $request, Note $note)
     {
@@ -70,8 +66,8 @@ class NoteController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'subjects' => 'nullable|array', 
-            'subjects.*' => 'exists:subjects,id', 
+            'subjects' => 'nullable|array',
+            'subjects.*' => 'exists:subjects,id',
         ]);
 
         // Handle image upload if provided
@@ -88,40 +84,44 @@ class NoteController extends Controller
             'content' => $validated['content'],
         ]);
 
-        // Sync subjects if provided (no tags anymore)
+        // Sync subjects if provided
         if (isset($validated['subjects']) && count($validated['subjects']) > 0) {
             $note->subjects()->sync($validated['subjects']);
         }
 
         return redirect()->route('note.index')->with('success', 'Note updated successfully.');
     }
+
     public function show($id)
     {
         // Find the note with its related subjects
         $note = Note::with('subjects')->findOrFail($id);  // Eager load 'subjects' relationship
-    
+
         // Return the view with the note details
         return view('notes.show', compact('note'));
     }
+
     public function userNotes()
     {
-        $notes = auth()->user()->notes()->latest()->paginate(10); // ✅ Get only the logged-in user's notes
+        // Get only the logged-in user's notes
+        $notes = auth()->user()->notes()->latest()->paginate(10);
+
         return view('notes.index', compact('notes'));
     }
+
     public function destroy(Note $note)
-{
-    if ($note->user_id !== auth()->id()) {
-        return redirect()->route('note.index')->with('error', 'Unauthorized action.');
+    {
+        if ($note->user_id !== auth()->id()) {
+            return redirect()->route('note.index')->with('error', 'Unauthorized action.');
+        }
+
+        if ($note->image) {
+            Storage::delete('public/' . $note->image);
+        }
+
+        $note->subjects()->detach();
+        $note->delete();
+
+        return redirect()->route('note.index')->with('success', 'Note deleted successfully.');
     }
-
-    if ($note->image) {
-        Storage::delete('public/' . $note->image);
-    }
-
-    $note->subjects()->detach();
-    $note->delete();
-
-    return redirect()->route('note.index')->with('success', 'Note deleted successfully.');
-}
-
 }

@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('title'); // The title of the note.
             $table->text('content')->nullable(); // The content of the note.
             $table->string('image')->nullable(); // Optional field for the file URL.
+            $table->foreignId('subject_id')->constrained();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Foreign key to the users table.
             $table->timestamps(); // Created_at and updated_at columns.
         });
